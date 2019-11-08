@@ -21,7 +21,25 @@ void setup() {
   pinMode(pinDelBoton, INPUT);
 }
 
+void administrarEntrada(){
+}
+
+void actualizarPaleta(){
+}
+
+void actualizarPelota(){
+}
+
+void gestionarCondicionesDeVictoria(){
+}
+
+
 void loop() {
+ administrarEntrada()
+ actualizarPaleta()
+ actualizarPelota()
+ gestionarCondicionesDeVictoria()
+}
   estadoBoton = digitalRead(pinDelBoton);
   
   if( estadoBoton == 1) {
@@ -31,5 +49,3 @@ void loop() {
   }
 
 }
-
-   
