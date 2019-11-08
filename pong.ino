@@ -1,12 +1,34 @@
 #include "LedControl.h"
 
-//Actualizar los pines una vez montemos el dispositivo
-LedControl lcl=LedControl(12,11,10,1);
+/* * * * * * * * * * * * * * * * *
+ *  CONSTANTES
+ */
+ 
+#define PRIMERA_MATRIZ 0
+#define SEGUNDA_MATRIZ 1
+#define POSICION_FILA_MAXIMA 7
 
-//
-int pinDelBoton = 8;
+#define PIN_BOTON_IZQ_ARRIBA 8
+#define PIN_BOTON_IZQ_ABAJO  9
+#define PIN_BOTON_DER_ARRIBA 10
+#define PIN_BOTON_DER_ABAJO  11
+
+#define PIN_MATRIZ_DATA_IN   12
+#define PIN_MATRIZ_LOAD      13
+#define PIN_MATRIZ_CLK       14
+
+/* * * * * * * * * * * * * * * * *
+ *  VARIABLES
+ */
+ 
+LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
+
 int estadoBoton = 0;
 
+/* * * * * * * * * * * * * * * * *
+ *  FUNCIONES PRINCIPALES
+ */
+ 
 void setup() {
 
   //Apaga todos los LEDS
@@ -20,19 +42,6 @@ void setup() {
   //Inicializa boton
   pinMode(pinDelBoton, INPUT);
 }
-
-void administrarEntrada(){
-}
-
-void actualizarPaleta(){
-}
-
-void actualizarPelota(){
-}
-
-void gestionarCondicionesDeVictoria(){
-}
-
 
 void loop() {
  administrarEntrada()
@@ -48,4 +57,31 @@ void loop() {
 
   }
 
+}
+
+/* * * * * * * * * * * * * * * * *
+ *  FUNCIONES SECUNDARIAS
+ */
+
+void dibujar(int x, int y, int estado){
+  int matriz = PRIMERA_MATRIZ; 
+
+  if (x > POSICION_FILA_MAXIMA) {
+    matriz = SEGUNDA_MATRIZ;
+    x -= POSICION_FILA_MAXIMA;
+  }
+
+  lcl.setLed(matriz,x,y,estado);
+}
+
+void administrarEntrada(){
+}
+
+void actualizarPaleta(){
+}
+
+void actualizarPelota(){
+}
+
+void gestionarCondicionesDeVictoria(){
 }
