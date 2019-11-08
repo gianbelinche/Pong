@@ -17,12 +17,6 @@
 #define PIN_MATRIZ_LOAD      13
 #define PIN_MATRIZ_CLK       14
 
-/* * * * * * * * * * * * * * * * *
- *  VARIABLES
- */
- 
-LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
-
 typedef struct paleta{
   char x;
   char y;
@@ -33,7 +27,14 @@ typedef struct pelota{
   char y;
 }pelota_t;
 
-int estadoBoton = 0;
+/* * * * * * * * * * * * * * * * *
+ *  VARIABLES
+ */
+ 
+LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
+
+char velPaletaDer = 0;
+char velPaletaIzq = 0;
 
 /* * * * * * * * * * * * * * * * *
  *  FUNCIONES PRINCIPALES
@@ -85,6 +86,8 @@ void dibujar(int x, int y, int estado){
 }
 
 void administrarEntrada(){
+  velPaletaDer =  digitalRead(PIN_BOTON_DER_ABAJO) - digitalRead(PIN_BOTON_DER_ARRIBA); 
+  velPaletaIzq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
 }
 
 void actualizarPaleta(){
