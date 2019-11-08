@@ -1,4 +1,4 @@
-#include "LedControl.h"
+//#include "LedControl.h"
 
 /* * * * * * * * * * * * * * * * *
  *  CONSTANTES
@@ -22,6 +22,16 @@
  */
  
 LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
+
+typedef struct paleta{
+  char x;
+  char y;
+}paleta_t;
+
+typedef struct pelota{
+  char x;
+  char y;
+}pelota_t;
 
 int estadoBoton = 0;
 
