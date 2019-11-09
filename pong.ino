@@ -1,7 +1,7 @@
-//#include "LedControl.h"
+#include "LedControl.h"
 
 /* * * * * * * * * * * * * * * * *
- *  CONSTANTES
+ *  CONSTANTES Y TIPOS DE DATOS
  */
  
 #define PRIMERA_MATRIZ 0
@@ -36,15 +36,17 @@ LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
 paleta_t paleta_izq;
 paleta_izq.x = 1;
 paleta_izq.y = 2;
+
 paleta_t paleta_der;
 paleta_der.x = 14;
 paleta_der.y = 2;
+
 pelota_t pelota;
 pelota.x = 7;
 pelota.y = 4;
 
-char velPaletaDer = 0;
-char velPaletaIzq = 0;
+char vel_paleta_der = 0;
+char vel_paleta_izq = 0;
 
 /* * * * * * * * * * * * * * * * *
  *  FUNCIONES PRINCIPALES
@@ -60,8 +62,11 @@ void setup() {
   LedControl.clearDisplay(0) // 0 para la primer matriz, uno para la segunda  
   lcl.setLed(0,2,7,true); //prende en led (2,7), 0 es la matriz a prender.
 
-  //Inicializa boton
-  pinMode(pinDelBoton, INPUT);
+  //Inicializacion de pines de botones
+  const char pines = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO}
+  for(char i = 0; i <4,i++){
+      pinMode(pines[i], INPUT);
+  }
 }
 
 void loop() {
@@ -70,19 +75,16 @@ void loop() {
  actualizarPelota()
  gestionarCondicionesDeVictoria()
 }
-  estadoBoton = digitalRead(pinDelBoton);
-  
-  if( estadoBoton == 1) {
-
-  } else {
-
-  }
-
-}
 
 /* * * * * * * * * * * * * * * * *
  *  FUNCIONES SECUNDARIAS
  */
+
+void moverPaleta(paleta_t* paleta,char vel){
+  char nueva_y = paleta.y + vel;
+  if(nueva_y >= 0 && nueva_y < POSICION_FILA_MAXIMA)
+     paleta.y = nueva_y;
+}
 
 void dibujar(int x, int y, int estado){
   int matriz = PRIMERA_MATRIZ; 
@@ -96,8 +98,8 @@ void dibujar(int x, int y, int estado){
 }
 
 void administrarEntrada(){
-  velPaletaDer =  digitalRead(PIN_BOTON_DER_ABAJO) - digitalRead(PIN_BOTON_DER_ARRIBA); 
-  velPaletaIzq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
+  vel_paleta_der =  digitalRead(PIN_BOTON_DER_ABAJO) - digitalRead(PIN_BOTON_DER_ARRIBA); 
+  vel_paleta_izq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
 }
 
 void actualizarPaleta(){
