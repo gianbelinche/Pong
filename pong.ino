@@ -33,6 +33,16 @@ typedef struct pelota{
  
 LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
 
+paleta_t paleta_izq;
+paleta_izq.x = 1;
+paleta_izq.y = 2;
+paleta_t paleta_der;
+paleta_der.x = 14;
+paleta_der.y = 2;
+pelota_t pelota;
+pelota.x = 7;
+pelota.y = 4;
+
 char velPaletaDer = 0;
 char velPaletaIzq = 0;
 
@@ -97,4 +107,16 @@ void actualizarPelota(){
 }
 
 void gestionarCondicionesDeVictoria(){
+}
+
+void dibujarPaleta(paleta_t paleta){
+  dibujar(paleta.x,paleta.y,1):
+  dibujar(paleta.x+1,paleta.y,1):
+  dibujar(paleta.x+2,paleta.y,1):
+}
+
+void inicializar(){
+  dibujarPaleta(paleta_izq);
+  dibujarPaleta(paleta_der);
+  dibujar(pelota.x,pelota.y);
 }
