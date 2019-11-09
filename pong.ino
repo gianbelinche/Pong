@@ -7,6 +7,7 @@
 #define PRIMERA_MATRIZ 0
 #define SEGUNDA_MATRIZ 1
 #define POSICION_FILA_MAXIMA 7
+#define POSICION_PALETA_MINIMA 2
 
 #define PIN_BOTON_IZQ_ARRIBA 8
 #define PIN_BOTON_IZQ_ABAJO  9
@@ -59,8 +60,10 @@ void setup() {
       lcl.shutdown(index,false);
 
   //Inicializa variable de control de matriz
-  LedControl.clearDisplay(0) // 0 para la primer matriz, uno para la segunda  
-  lcl.setLed(0,2,7,true); //prende en led (2,7), 0 es la matriz a prender.
+  LedControl.clearDisplay(PRIMERA_MATRIZ); // 0 para la primer matriz, uno para la segunda  
+  LedControl.clearDisplay(SEGUNDA_MATRIZ);
+
+  inicializar();
 
   //Inicializacion de pines de botones
   const char pines = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO}
@@ -70,10 +73,10 @@ void setup() {
 }
 
 void loop() {
- administrarEntrada()
- actualizarPaleta()
- actualizarPelota()
- gestionarCondicionesDeVictoria()
+ administrarEntrada();
+ actualizarPaleta();
+ actualizarPelota();
+ gestionarCondicionesDeVictoria();
 }
 
 /* * * * * * * * * * * * * * * * *
@@ -82,8 +85,19 @@ void loop() {
 
 void moverPaleta(paleta_t* paleta,char vel){
   char nueva_y = paleta.y + vel;
-  if(nueva_y >= 0 && nueva_y < POSICION_FILA_MAXIMA)
+  int led_a_apagar;   
+  if(nueva_y >= POSICION_PALETA_MINIMA && nueva_y < POSICION_FILA_MAXIMA){
+    if(nueva_y > paleta.y){
+      led_a_apagar = nueva_y + 3;
+    } else {
+      led_a_apagar = nueva_y - 1;
+    }
      paleta.y = nueva_y;
+  } else {
+    led_a_apagar = 8;
+  }
+     
+  actualizarPaleta(nueva_y,led_a_apagar,paleta)   
 }
 
 void dibujar(int x, int y, int estado){
@@ -102,7 +116,12 @@ void administrarEntrada(){
   vel_paleta_izq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
 }
 
-void actualizarPaleta(){
+void actualizarPaleta(int posicion_a_prender, int posicion_a_apagar,paleta_t* paleta){
+  if (posicion_a_apagar < 8){
+    dibujar(paleta.x,posicion_a_prender,1);
+    dibujar(paleta.x,posicion_a_apagar,0);
+  }
+}
 }
 
 void actualizarPelota(){
