@@ -32,9 +32,9 @@ typedef struct pelota{
  *  VARIABLES
  */
  
-LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);
+LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);  //Maneja las matrices de leds
 
-paleta_t paleta_izq;
+paleta_t paleta_izq;  //Inicializacion de las paletas y la pelota
 paleta_izq.x = 1;
 paleta_izq.y = 2;
 
@@ -74,8 +74,6 @@ void setup() {
 
 void loop() {
  administrarEntrada();
- actualizarPaleta();
- actualizarPelota();
  gestionarCondicionesDeVictoria();
 }
 
@@ -93,11 +91,8 @@ void moverPaleta(paleta_t* paleta,char vel){
       led_a_apagar = nueva_y - 1;
     }
      paleta.y = nueva_y;
-  } else {
-    led_a_apagar = 8;
+     actualizarPaleta(led_a_apagar,paleta); 
   }
-     
-  actualizarPaleta(nueva_y,led_a_apagar,paleta)   
 }
 
 void dibujar(int x, int y, int estado){
@@ -116,16 +111,22 @@ void administrarEntrada(){
   vel_paleta_izq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
 }
 
-void actualizarPaleta(int posicion_a_prender, int posicion_a_apagar,paleta_t* paleta){
-  if (posicion_a_apagar < 8){
-    dibujar(paleta.x,posicion_a_prender,1);
+void actualizarPaleta(int posicion_a_apagar,paleta_t* paleta){
+    dibujar(paleta.x,paleta.y,1);
     dibujar(paleta.x,posicion_a_apagar,0);
   }
+
+  
+
+void actualizarPelota(int x_anterior,int y_anterior){
+  dibujar(x_anterior,y_anterior,0);
+  dibujar(pelota.x,pelota.y,1);
 }
+  
+void moverPelota(){
+  
 }
 
-void actualizarPelota(){
-}
 
 void gestionarCondicionesDeVictoria(){
 }
