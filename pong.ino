@@ -26,6 +26,8 @@ typedef struct paleta{
 typedef struct pelota{
   char x;
   char y;
+  char vel_x;
+  char vel_y;
 }pelota_t;
 
 /* * * * * * * * * * * * * * * * *
@@ -45,6 +47,8 @@ paleta_der.y = 2;
 pelota_t pelota;
 pelota.x = 7;
 pelota.y = 4;
+pelota.vel_x = 1;
+pelota.vel_y = 1;
 
 char vel_paleta_der = 0;
 char vel_paleta_izq = 0;
@@ -124,7 +128,8 @@ void actualizarPelota(int x_anterior,int y_anterior){
 }
   
 void moverPelota(){
-  
+  pelota.x += vel.x; //Gestionar colisiones
+  pelota.y += vel.y;
 }
 
 
