@@ -8,6 +8,7 @@
 #define SEGUNDA_MATRIZ 1
 #define POSICION_FILA_MAXIMA 7
 #define POSICION_PALETA_MINIMA 2
+#define LARGO PALETA 3
 
 #define PIN_BOTON_IZQ_ARRIBA 8
 #define PIN_BOTON_IZQ_ABAJO  9
@@ -88,7 +89,7 @@ void loop() {
 void moverPaleta(paleta_t* paleta,char vel){
   char nueva_y = paleta.y + vel;
   int led_a_apagar;   
-  if(nueva_y >= POSICION_PALETA_MINIMA && nueva_y < POSICION_FILA_MAXIMA){
+  if(nueva_y >= POSICION_PALETA_MINIMA and nueva_y < POSICION_FILA_MAXIMA){
     if(nueva_y > paleta.y){
       led_a_apagar = nueva_y + 3;
     } else {
@@ -126,10 +127,34 @@ void actualizarPelota(int x_anterior,int y_anterior){
   dibujar(x_anterior,y_anterior,0);
   dibujar(pelota.x,pelota.y,1);
 }
+
+bool colisionConPaleta(){
+  bool cond1 = pelota.x + pelota.vel_x == paleta_izq.x;  
+  bool cond2 = (pelota.y += pelota.vel_y >= paleta_izq.y) and (pelota.y += pelota.vel_y < paleta_izq.y + LARGO_PALETA);
+  bool cond3 = pelota.x + pelota.vel_x == paleta_der.x;
+  bool cond4 = (pelota.y += pelota.vel_y >= paleta_der.y) and (pelota.y += pelota.vel_y < paleta_der.y + LARGO_PALETA);
+
+  return (cond1 and cond2) or ( cond3 and cond4);
+}
   
 void moverPelota(){
-  pelota.x += vel.x; //Gestionar colisiones
-  pelota.y += vel.y;
+  int x_anterior = pelota.x;
+  int y_anterior = pelota.y;  
+
+  if (pelota.y + pelota.vel_y > POSICION_FILA_MAXIMA or pelota.y + pelota.vel_y < 0){
+    pelota.vel_y *= -1;
+  }
+  pelota.y += pelota.vel_y;
+  if (colisionConPaleta()){
+    pelota.vel_x *= -1;
+  }
+  pelota.x += pelota.vel_x;
+
+  if (pelota.x == 0 or pelota.x == 15){
+    reiniciar();
+  }
+  actualizarPelota(x_anterior,y_anterior);
+  
 }
 
 
