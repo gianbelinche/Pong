@@ -21,7 +21,7 @@
 
 typedef struct paleta{
   char x;
-  char y;
+  int y;
 }paleta_t;
 
 typedef struct pelota{
@@ -37,22 +37,20 @@ typedef struct pelota{
  
 LedControl lcl=LedControl(PIN_MATRIZ_DATA_IN,PIN_MATRIZ_CLK,PIN_MATRIZ_LOAD,2);  //Maneja las matrices de leds
 
-paleta_t paleta_izq;  //Inicializacion de las paletas y la pelota
-paleta_izq.x = 1;
-paleta_izq.y = 2;
+paleta_t paleta_izq = {1,2};  //Inicializacion de las paletas y la pelota
 
-paleta_t paleta_der;
-paleta_der.x = 14;
-paleta_der.y = 2;
+paleta_t paleta_der = {14,2};
 
-pelota_t pelota;
-pelota.x = 7;
-pelota.y = 4;
-pelota.vel_x = 1;
-pelota.vel_y = 1;
+pelota_t pelota = {7,4,1,1} ;
 
 char vel_paleta_der = 0;
 char vel_paleta_izq = 0;
+
+/******************************
+ * Declaraciones de Funciones
+ */
+
+ void inicializar();
 
 /* * * * * * * * * * * * * * * * *
  *  FUNCIONES PRINCIPALES
@@ -65,14 +63,14 @@ void setup() {
       lcl.shutdown(index,false);
 
   //Inicializa variable de control de matriz
-  LedControl.clearDisplay(PRIMERA_MATRIZ); // 0 para la primer matriz, uno para la segunda  
-  LedControl.clearDisplay(SEGUNDA_MATRIZ);
+  lcl.clearDisplay(PRIMERA_MATRIZ); // 0 para la primer matriz, uno para la segunda  
+  lcl.clearDisplay(SEGUNDA_MATRIZ);
 
   inicializar();
 
   //Inicializacion de pines de botones
-  const char pines = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO}
-  for(char i = 0; i <4,i++){
+ const char pines = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO}; // No compila
+  for(char i = 0; i <4;i++){
       pinMode(pines[i], INPUT);
   }
 }
