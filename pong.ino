@@ -8,7 +8,7 @@
 #define SEGUNDA_MATRIZ 1
 #define POSICION_FILA_MAXIMA 7
 #define POSICION_PALETA_MINIMA 2
-#define LARGO PALETA 3
+#define LARGO_PALETA 3
 
 #define PIN_BOTON_IZQ_ARRIBA 8
 #define PIN_BOTON_IZQ_ABAJO  9
@@ -61,6 +61,7 @@ void setup() {
   //Apaga todos los LEDS
   for(int index=0 ; index < lcl.getDeviceCount() ; index++) {
       lcl.shutdown(index,false);
+  }    
 
   //Inicializa variable de control de matriz
   lcl.clearDisplay(PRIMERA_MATRIZ); // 0 para la primer matriz, uno para la segunda  
@@ -69,7 +70,7 @@ void setup() {
   inicializar();
 
   //Inicializacion de pines de botones
- const char pines = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO}; // No compila
+ const char pines[] = {PIN_BOTON_IZQ_ARRIBA,PIN_BOTON_IZQ_ABAJO,PIN_BOTON_DER_ARRIBA,PIN_BOTON_DER_ABAJO};
   for(char i = 0; i <4;i++){
       pinMode(pines[i], INPUT);
   }
@@ -84,7 +85,7 @@ void loop() {
  *  FUNCIONES SECUNDARIAS
  */
 
-void moverPaleta(paleta_t* paleta,char vel){
+void moverPaleta(paleta_t paleta,char vel){
   char nueva_y = paleta.y + vel;
   int led_a_apagar;   
   if(nueva_y >= POSICION_PALETA_MINIMA and nueva_y < POSICION_FILA_MAXIMA){
@@ -114,7 +115,7 @@ void administrarEntrada(){
   vel_paleta_izq =  digitalRead(PIN_BOTON_IZQ_ABAJO) - digitalRead(PIN_BOTON_IZQ_ARRIBA);
 }
 
-void actualizarPaleta(int posicion_a_apagar,paleta_t* paleta){
+void actualizarPaleta(int posicion_a_apagar,paleta_t paleta){
     dibujar(paleta.x,paleta.y,1);
     dibujar(paleta.x,posicion_a_apagar,0);
   }
@@ -133,6 +134,10 @@ bool colisionConPaleta(){
   bool cond4 = (pelota.y += pelota.vel_y >= paleta_der.y) and (pelota.y += pelota.vel_y < paleta_der.y + LARGO_PALETA);
 
   return (cond1 and cond2) or ( cond3 and cond4);
+}
+
+void reiniciar(){
+  
 }
   
 void moverPelota(){
@@ -160,13 +165,13 @@ void gestionarCondicionesDeVictoria(){
 }
 
 void dibujarPaleta(paleta_t paleta){
-  dibujar(paleta.x,paleta.y,1):
-  dibujar(paleta.x+1,paleta.y,1):
-  dibujar(paleta.x+2,paleta.y,1):
+  dibujar(paleta.x,paleta.y,1);
+  dibujar(paleta.x+1,paleta.y,1);
+  dibujar(paleta.x+2,paleta.y,1);
 }
 
 void inicializar(){
   dibujarPaleta(paleta_izq);
   dibujarPaleta(paleta_der);
-  dibujar(pelota.x,pelota.y);
+  dibujar(pelota.x,pelota.y,1);
 }
