@@ -43,8 +43,8 @@ paleta_t paleta_der = {14,2};
 
 pelota_t pelota = {7,4,1,1} ;
 
-char vel_paleta_der = 0;
-char vel_paleta_izq = 0;
+signed char vel_paleta_der = 0;
+signed char vel_paleta_izq = 0;
 
 /******************************
  * Declaraciones de Funciones
@@ -86,9 +86,10 @@ void loop() {
  *  FUNCIONES SECUNDARIAS
  */
 
-void moverPaleta(paleta_t paleta,char vel){
+void moverPaleta(paleta_t paleta,signed char vel){
   char nueva_y = paleta.y + vel;
-  int led_a_apagar;   
+  int led_a_apagar;
+  
   if(nueva_y >= POSICION_PALETA_MINIMA and nueva_y < POSICION_FILA_MAXIMA){
     if(nueva_y > paleta.y){
       led_a_apagar = nueva_y + 3;
