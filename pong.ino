@@ -8,7 +8,7 @@
 #define SEGUNDA_MATRIZ 1
 #define POSICION_FILA_MAXIMA 7
 #define POSICION_PALETA_MINIMA 0
-#define POSICION_PALETA_MAXIMA 5
+#define POSICION_PALETA_MAXIMA 6
 #define LARGO_PALETA 3
 
 #define PIN_BOTON_IZQ_ARRIBA 6
@@ -75,7 +75,10 @@ void setup() {
   for(char i = 0; i <4;i++){
       pinMode(pines[i], INPUT);
   }
-  moverPaleta(paleta_izq,1);
+  moverPaleta(&paleta_izq,1);
+  moverPaleta(&paleta_izq,1);
+  moverPaleta(&paleta_izq,1);
+  moverPaleta(&paleta_izq,-1);
 }
 
 void loop() {
@@ -88,21 +91,21 @@ void loop() {
  *  FUNCIONES SECUNDARIAS
  */
 
-void moverPaleta(paleta_t paleta,int vel){
-  int nueva_y = paleta.y + vel;
-  dibujar(paleta.x,nueva_y,1);
+void moverPaleta(paleta_t* paleta,int vel){
+  int nueva_y = paleta->y + vel;
+  dibujar(paleta->x,nueva_y,1);
   int led_a_apagar;
   int led_a_prender;
   
   if(nueva_y >= POSICION_PALETA_MINIMA and nueva_y < POSICION_PALETA_MAXIMA){
-    if(nueva_y > paleta.y){
+    if(nueva_y > paleta->y){
       led_a_apagar = nueva_y - 1;
       led_a_prender = nueva_y + 2;
     } else {
       led_a_apagar = nueva_y + 3;
       led_a_prender = nueva_y;
     }
-    paleta.y = nueva_y;
+    paleta->y = nueva_y;
     actualizarPaleta(led_a_apagar,paleta,led_a_prender); 
   }
 }
@@ -124,9 +127,9 @@ void administrarEntrada(){
   moverPelota();
 }
 
-void actualizarPaleta(int posicion_a_apagar,paleta_t paleta,int led_a_prender){
-    dibujar(paleta.x,led_a_prender,1);
-    dibujar(paleta.x,posicion_a_apagar,0);
+void actualizarPaleta(int posicion_a_apagar,paleta_t* paleta,int led_a_prender){
+    dibujar(paleta->x,led_a_prender,1);
+    dibujar(paleta->x,posicion_a_apagar,0);
   }
 
   
