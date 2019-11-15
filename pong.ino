@@ -245,8 +245,149 @@ void reiniciar(){
   pelota.vel_x = 2 * (rand() % 2) -1;
   pelota.vel_y = 2 * (rand() % 2) -1;
 
+  transicion();
+
   inicializar();
 
+}
+
+void dibujarT(int x,int y,int estado){
+  dibujar(x,y,estado);
+  dibujar(x+8,y,estado);
+}
+
+void transicion(){
+  //Fase 1
+
+  delay(165);
+  
+  dibujarT(3,3,1);
+  dibujarT(3,4,1);  //Prendo leds en forma radial 1
+  dibujarT(4,3,1);
+  dibujarT(4,4,1);
+
+  delay(165);
+  //Fase 2
+  dibujarT(3,3,0);
+  dibujarT(3,4,0);  //Apago leds anteriores
+  dibujarT(4,3,0);
+  dibujarT(4,4,0);
+
+
+  dibujarT(3,2,1);
+  dibujarT(4,2,1);
+  dibujarT(5,3,1);
+  dibujarT(5,4,1);  //Prendo segunda tanda de leds
+  dibujarT(4,5,1);
+  dibujarT(3,5,1);
+  dibujarT(2,4,1);
+  dibujarT(2,3,1);
+
+  delay(165);
+
+  //Fase 3
+  dibujarT(3,2,0);
+  dibujarT(4,2,0);
+  dibujarT(5,3,0);
+  dibujarT(5,4,0);  //Apago tanda anterior
+  dibujarT(4,5,0);
+  dibujarT(3,5,0);
+  dibujarT(2,4,0);
+  dibujarT(2,3,0);
+
+
+  dibujarT(3,1,1);
+  dibujarT(4,1,1);
+  dibujarT(5,1,1);
+  dibujarT(5,2,1);
+  dibujarT(6,2,1);
+  dibujarT(6,3,1);
+  dibujarT(6,4,1);
+  dibujarT(6,5,1);
+  dibujarT(5,5,1);
+  dibujarT(5,6,1); //Prendo nueva tanda
+  dibujarT(4,6,1);
+  dibujarT(3,6,1);
+  dibujarT(2,6,1);
+  dibujarT(2,5,1);
+  dibujarT(1,5,1);
+  dibujarT(1,4,1);
+  dibujarT(1,3,1);
+  dibujarT(1,2,1);
+  dibujarT(2,2,1);
+  dibujarT(2,1,1);
+
+  delay(165);
+
+  //Fase 4
+
+  dibujarT(3,1,0);
+  dibujarT(4,1,0);
+  dibujarT(5,1,0);
+  dibujarT(5,2,0);
+  dibujarT(6,2,0);
+  dibujarT(6,3,0);
+  dibujarT(6,4,0);
+  dibujarT(6,5,0);
+  dibujarT(5,5,0);
+  dibujarT(5,6,0); //Apago tanda anterior
+  dibujarT(4,6,0);
+  dibujarT(3,6,0);
+  dibujarT(2,6,0);
+  dibujarT(2,5,0);
+  dibujarT(1,5,0);
+  dibujarT(1,4,0);
+  dibujarT(1,3,0);
+  dibujarT(1,2,0);
+  dibujarT(2,2,0);
+  dibujarT(2,1,0);
+  
+
+  dibujarT(1,0,1);
+  dibujarT(2,0,1);
+  dibujarT(3,0,1);
+  dibujarT(4,0,1);
+  dibujarT(5,0,1);
+  dibujarT(6,0,1);
+  dibujarT(6,1,1);
+  dibujarT(7,1,1);
+  dibujarT(7,2,1);
+  dibujarT(7,3,1);
+  dibujarT(7,4,1);
+  dibujarT(7,5,1);
+  dibujarT(7,6,1);
+  dibujarT(6,6,1); //Ultima tanda
+  dibujarT(6,7,1);
+  dibujarT(5,7,1);
+  dibujarT(4,7,1);
+  dibujarT(3,7,1);
+  dibujarT(2,7,1);
+  dibujarT(1,7,1);
+  dibujarT(1,6,1);
+  dibujarT(0,6,1);
+  dibujarT(0,5,1);
+  dibujarT(0,4,1);
+  dibujarT(0,3,1);
+  dibujarT(0,2,1);
+  dibujarT(0,1,1);
+  dibujarT(1,1,1);
+
+  delay(165);
+  dibujarT(6,1,0); 
+  dibujarT(6,6,0);
+  dibujarT(1,6,0); 
+  dibujarT(1,1,0); 
+
+  dibujarT(0,7,1);
+  dibujarT(7,7,1);
+  dibujarT(0,0,1);
+  dibujarT(7,0,1);
+
+  delay(165);
+  
+  lcl.clearDisplay(PRIMERA_MATRIZ); // 0 para la primer matriz, uno para la segunda  
+  lcl.clearDisplay(SEGUNDA_MATRIZ);
+  
 }
 
 
