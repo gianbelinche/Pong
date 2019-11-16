@@ -246,9 +246,18 @@ void reiniciar(){
   lcl.clearDisplay(PRIMERA_MATRIZ);
   lcl.clearDisplay(SEGUNDA_MATRIZ);
 
-  inicializar();
+  delay(500);
+
   dibujarPuntaje(PRIMERA_MATRIZ,puntaje_izq);
   dibujarPuntaje(SEGUNDA_MATRIZ,puntaje_der);
+
+  delay(1000);
+
+  lcl.clearDisplay(PRIMERA_MATRIZ);
+  lcl.clearDisplay(SEGUNDA_MATRIZ);
+
+  inicializar();
+  
   delay(1000);
 }
 
@@ -262,19 +271,21 @@ void dibujarPuntaje(int matriz,int puntaje){
   
   if(puntaje == 1) return;
 
-  for(int i = x_pantalla;i <= POSICION_FILA_MAXIMA - 1;i++){
+  const int pantalla_max = (matriz)? 1 : -6;
+
+  for(int i = x_pantalla;i <= POSICION_FILA_MAXIMA - pantalla_max;i++){
     dibujar(i,1,1);
   }
    
   if(puntaje == 2) return;
 
   for(int i = 1;i <= POSICION_FILA_MAXIMA - 1;i++){
-    dibujar(x_pantalla + 4,i,1);
+    dibujar(x_pantalla + 5,i,1);
   }
 
   if(puntaje == 3) return;
 
-  for(int i = x_pantalla;i <= POSICION_FILA_MAXIMA - 1;i++){
+  for(int i = x_pantalla;i <= POSICION_FILA_MAXIMA - pantalla_max;i++){
     dibujar(i,6,1);
   }
   
@@ -282,7 +293,7 @@ void dibujarPuntaje(int matriz,int puntaje){
 
   for(int i = 5;i > 1;i--){
     dibujar(x_pantalla + 1 + 5 - i,i,1);
-    dibujar(x_pantalla + 2 + 5 - i,i,1);
+    //dibujar(x_pantalla + 2 + 5 - i,i,1);
   }
 
 }
@@ -468,9 +479,9 @@ void gestionarCondicionesDeVictoria(){
      }
      
     if(pelota.x == 0)
-      puntaje_der++;
-    else
       puntaje_izq++;
+    else
+      puntaje_der++;
       
     reiniciar();
   }
