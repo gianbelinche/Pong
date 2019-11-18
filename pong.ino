@@ -346,9 +346,9 @@ void reiniciar(){
 void gestionarCondicionesDeVictoria(){
   if (pelota.x == 0 or pelota.x == 15){
     if(pelota.x == 0)
-      puntaje_izq++;
-    else
       puntaje_der++;
+    else
+      puntaje_izq++;
       
     reiniciar();
   }
