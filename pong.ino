@@ -1,4 +1,5 @@
 #include "LedControl.h"
+#include <binary.h>
 
 /* * * * * * * * * * * * * * * * *
  *  CONSTANTES Y TIPOS DE DATOS */
@@ -116,48 +117,89 @@ void moverPelota(){
 }
 
 void dibujarPuntaje(int matriz,int puntaje){
-  int posicion_x;
-  if (matriz) posicion_x = LARGO_MATRIZ;
-  else posicion_x = X_MINIMA;
-  
-  switch (puntaje) {
-  case 0:
+
+  if (puntaje == 0){
     byte digito0[] = {B00011000,B00100100,B01000010,B01000010,B01000010,B01000010,B00100100,B00011000};
     for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito0[i]);
+      lcl.setRow(matriz,i,digito0[i]);
     }
-    break;
-  case 1:
+  }
+
+  if (puntaje == 1){
     byte digito1[] = {B00011000,B01111000,B00011000,B00011000,B00011000,B00011000,B00011000,B01111110};
     for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito1[i]);
+      lcl.setRow(matriz,i,digito1[i]);
     }
-    break;
-  case 2:
-    byte digito2[] = {B01111110,B00000010,B00000010,B00000010,B01111110,B01000000,B01000000,B01111110};
-    for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito2[i]);
-    }
-    break;
-  case 3:
-    byte digito3[] = {B01111110,B00000010,B00000010,B00111110,B00111110,B00000010,B00000010,B01111110};
-    for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito3[i]);
-    }
-    break;
-  case 4:
-    byte digito4[] = {B11000110,B11000110,B11000110,B11000110,B11111110,B00000110,B00000110,B00000110};
-    for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito4[i]);
-    }
-    break;
-  case 5:
-    byte digito5[] = {B11111110,B11111110,B11000000,B11000000,B11111110,B00000110,B00000110,B11111110};
-    for (int i=0;i < LARGO_MATRIZ;i++){
-      lcl.setRow(posicion_x,i,digito5[i]);
-    }
-    break;
   }
+
+  if (puntaje == 2){
+    byte digito2[] = {B01111110,B00000010,B00000010,B00000010,B01111110,B01000000,B01000000,B01111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito2[i]);
+      }
+  }
+
+  if (puntaje == 3){
+    byte digito3[] = {B01111110,B00000010,B00000010,B00111110,B00111110,B00000010,B00000010,B01111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito3[i]);
+      }
+  }
+
+  if (puntaje == 4){
+    byte digito4[] = {B11000110,B11000110,B11000110,B11000110,B11111110,B00000110,B00000110,B00000110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito4[i]);
+      }
+  }
+
+  if (puntaje == 5){
+    byte digito5[] = {B11111110,B11111110,B11000000,B11000000,B11111110,B00000110,B00000110,B11111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito5[i]);
+      }
+  }
+
+  /*
+  switch (puntaje) {
+    case 0:
+      byte digito0[] = {B00011000,B00100100,B01000010,B01000010,B01000010,B01000010,B00100100,B00011000};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito0[i]);
+      }
+      break;
+    case 1:
+      byte digito1[] = {B00011000,B01111000,B00011000,B00011000,B00011000,B00011000,B00011000,B01111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito1[i]);
+      }
+      break;
+    case 2:
+      byte digito2[] = {B01111110,B00000010,B00000010,B00000010,B01111110,B01000000,B01000000,B01111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito2[i]);
+      }
+      break;
+    case 3:
+      byte digito3[] = {B01111110,B00000010,B00000010,B00111110,B00111110,B00000010,B00000010,B01111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito3[i]);
+      }
+      break;
+    case 4:
+      byte digito4[] = {B11000110,B11000110,B11000110,B11000110,B11111110,B00000110,B00000110,B00000110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito4[i]);
+      }
+      break;
+    case 5:
+      byte digito5[] = {B11111110,B11111110,B11000000,B11000000,B11111110,B00000110,B00000110,B11111110};
+      for (int i=0;i < LARGO_MATRIZ;i++){
+        lcl.setRow(matriz,i,digito5[i]);
+      }
+      break;
+    }
+    */
 }
 
 void inicializar(){
@@ -333,7 +375,7 @@ void reiniciar(){
     puntaje_izq = 0;
   }
   
-  delay(1000);
+  delay(1300);
 
   for(int i = 0;i < lcl.getDeviceCount();i++) {
       lcl.clearDisplay(i);
