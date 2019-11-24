@@ -159,47 +159,6 @@ void dibujarPuntaje(int matriz,int puntaje){
         lcl.setRow(matriz,i,digito5[i]);
       }
   }
-
-  /*
-  switch (puntaje) {
-    case 0:
-      byte digito0[] = {B00011000,B00100100,B01000010,B01000010,B01000010,B01000010,B00100100,B00011000};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito0[i]);
-      }
-      break;
-    case 1:
-      byte digito1[] = {B00011000,B01111000,B00011000,B00011000,B00011000,B00011000,B00011000,B01111110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito1[i]);
-      }
-      break;
-    case 2:
-      byte digito2[] = {B01111110,B00000010,B00000010,B00000010,B01111110,B01000000,B01000000,B01111110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito2[i]);
-      }
-      break;
-    case 3:
-      byte digito3[] = {B01111110,B00000010,B00000010,B00111110,B00111110,B00000010,B00000010,B01111110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito3[i]);
-      }
-      break;
-    case 4:
-      byte digito4[] = {B11000110,B11000110,B11000110,B11000110,B11111110,B00000110,B00000110,B00000110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito4[i]);
-      }
-      break;
-    case 5:
-      byte digito5[] = {B11111110,B11111110,B11000000,B11000000,B11111110,B00000110,B00000110,B11111110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito5[i]);
-      }
-      break;
-    }
-    */
 }
 
 void inicializar(){
@@ -347,6 +306,30 @@ void transicion(){
   }
 }
 
+void informarVictoria(){
+  int matriz_ganadora;
+  int matriz_perdedora;
+  if(puntaje_izq > puntaje_der){
+    matriz_ganadora = PRIMERA_MATRIZ;
+    matriz_perdedora = SEGUNDA_MATRIZ;
+  } else {
+    matriz_ganadora = SEGUNDA_MATRIZ;
+    matriz_perdedora = PRIMERA_MATRIZ;    
+  }
+  
+  byte victoria[] = {B11000011,B11000011,B11011011,B11011011,B11011011,B11111111,B11111111,B11100111};
+  for (int i=0;i < LARGO_MATRIZ;i++){
+    lcl.setRow(matriz_ganadora,i,victoria[i]);
+  }
+
+  byte derrota[] = {B00110000,B00110000,B00110000,B00110000,B00110000,B00110000,B00111110,B00111110};
+  for (int i=0;i < LARGO_MATRIZ;i++){
+    lcl.setRow(matriz_perdedora,i,derrota[i]);
+  }
+  
+  delay(1300);
+}
+
 void reiniciar(){
   for(int i = 0;i < lcl.getDeviceCount();i++) {
       lcl.clearDisplay(i);
@@ -369,16 +352,19 @@ void reiniciar(){
 
   dibujarPuntaje(PRIMERA_MATRIZ,puntaje_izq);
   dibujarPuntaje(SEGUNDA_MATRIZ,puntaje_der);  
-
-  if(puntaje_der == 5 || puntaje_izq == 5){
-    puntaje_der = 0;
-    puntaje_izq = 0;
-  }
   
   delay(1300);
-
+  
   for(int i = 0;i < lcl.getDeviceCount();i++) {
       lcl.clearDisplay(i);
+  }
+
+  if(puntaje_der == 5 || puntaje_izq == 5){
+    informarVictoria();
+
+    for(int i = 0;i < lcl.getDeviceCount();i++) {
+      lcl.clearDisplay(i);
+    }
   }
 
   inicializar();
