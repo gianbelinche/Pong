@@ -21,14 +21,14 @@
 #define LARGO_PALETA 3
 
 #define CANTIDAD_BOTONES 4
-#define PIN_BOTON_IZQ_ARRIBA 4
+#define PIN_BOTON_IZQ_ARRIBA 3
 #define PIN_BOTON_IZQ_ABAJO  5
-#define PIN_BOTON_DER_ARRIBA 6
-#define PIN_BOTON_DER_ABAJO  7
+#define PIN_BOTON_DER_ARRIBA 4
+#define PIN_BOTON_DER_ABAJO  6
 
 #define PIN_MATRIZ_DATA_IN   10
-#define PIN_MATRIZ_CLK       11
-#define PIN_MATRIZ_LOAD      12
+#define PIN_MATRIZ_CLK       12
+#define PIN_MATRIZ_LOAD      11
 
 typedef struct paleta{
   int x;
@@ -127,36 +127,61 @@ void dibujarPuntaje(int matriz,int puntaje){
 
   if (puntaje == 1){
     byte digito1[] = {B00011000,B01111000,B00011000,B00011000,B00011000,B00011000,B00011000,B01111110};
+    byte digito1_[] = {B01111110,B00011000,B00011000,B00011000,B00011000,B00011000,B00011110,B00011000};
     for (int i=0;i < LARGO_MATRIZ;i++){
+      if (matriz == 0){
+         lcl.setRow(matriz,i,digito1_[i]);
+      }else{
       lcl.setRow(matriz,i,digito1[i]);
     }
+  }
   }
 
   if (puntaje == 2){
     byte digito2[] = {B01111110,B00000010,B00000010,B00000010,B01111110,B01000000,B01000000,B01111110};
-      for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito2[i]);
-      }
+    byte digito2_[] = {B01111110,B00000010,B00000010,B01111110,B01000000,B01000000,B01000000,B01111110};
+    for (int i=0;i < LARGO_MATRIZ;i++){
+      if (matriz == 0){
+         lcl.setRow(matriz,i,digito2_[i]);
+      }else{
+      lcl.setRow(matriz,i,digito2[i]);
+    }
+  }
   }
 
   if (puntaje == 3){
     byte digito3[] = {B01111110,B00000010,B00000010,B00111110,B00111110,B00000010,B00000010,B01111110};
+    byte digito3_[] = {B01111110,B01000000,B01000000,B01111100,B01111100,B01000000,B01000000,B01111110};
       for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito3[i]);
+        if (matriz == 0){
+         lcl.setRow(matriz,i,digito3_[i]);
+      }else{
+      lcl.setRow(matriz,i,digito3[i]);
+    }
       }
   }
 
   if (puntaje == 4){
     byte digito4[] = {B11000110,B11000110,B11000110,B11000110,B11111110,B00000110,B00000110,B00000110};
+    byte digito4_[] = {B01100000,B01100000,B01100000,B01111111,B01100011,B01100011,B01100011,B01100011};
       for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito4[i]);
+        if (matriz == 0){
+         lcl.setRow(matriz,i,digito4_[i]);
+      }else{
+      lcl.setRow(matriz,i,digito4[i]);
+    }
       }
   }
 
   if (puntaje == 5){
     byte digito5[] = {B11111110,B11111110,B11000000,B11000000,B11111110,B00000110,B00000110,B11111110};
+    byte digito5_[] = {B01111111,B01100000,B01100000,B01111111,B00000011,B00000011,B01111111,B01111111};
       for (int i=0;i < LARGO_MATRIZ;i++){
-        lcl.setRow(matriz,i,digito5[i]);
+        if (matriz == 0){
+         lcl.setRow(matriz,i,digito5_[i]);
+      }else{
+      lcl.setRow(matriz,i,digito5[i]);
+    }
       }
   }
 }
@@ -318,13 +343,24 @@ void informarVictoria(){
   }
   
   byte victoria[] = {B11000011,B11000011,B11011011,B11011011,B11011011,B11111111,B11111111,B11100111};
+  byte victoria_[] = {B11100111,B11111111,B11111111,B11011011,B11011011,B11011011,B11000011,B11000011};
   for (int i=0;i < LARGO_MATRIZ;i++){
-    lcl.setRow(matriz_ganadora,i,victoria[i]);
+    if (matriz_ganadora == 0){
+      lcl.setRow(matriz_ganadora,i,victoria_[i]);
+    }else{
+      lcl.setRow(matriz_ganadora,i,victoria[i]);
+    }
   }
 
+  
   byte derrota[] = {B00110000,B00110000,B00110000,B00110000,B00110000,B00110000,B00111110,B00111110};
+  byte derrota_[] = {B01111100,B01111100,B00001100,B00001100,B00001100,B00001100,B00001100,B00001100};
   for (int i=0;i < LARGO_MATRIZ;i++){
-    lcl.setRow(matriz_perdedora,i,derrota[i]);
+    if (matriz_perdedora == 0){
+      lcl.setRow(matriz_perdedora,i,derrota_[i]);
+    }else{
+      lcl.setRow(matriz_perdedora,i,derrota[i]);
+    }
   }
   
   delay(1300);
@@ -361,6 +397,8 @@ void reiniciar(){
 
   if(puntaje_der == 5 || puntaje_izq == 5){
     informarVictoria();
+    puntaje_der = 0;
+    puntaje_izq = 0;
 
     for(int i = 0;i < lcl.getDeviceCount();i++) {
       lcl.clearDisplay(i);
